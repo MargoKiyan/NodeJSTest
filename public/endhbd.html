@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Загадкова пісня!</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+        input[type=range] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+            width: 80px;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            background: rgba(255, 255, 255, 0.2);
+            height: 6px;
+            border-radius: 8px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            margin-top: -5px;
+            background-color: #fce7f3;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+        }
+        /* Firefox */
+        input[type=range]::-moz-range-track {
+            background: rgba(255, 255, 255, 0.2);
+            height: 6px;
+            border-radius: 8px;
+        }
+        input[type=range]::-moz-range-thumb {
+            border: none;
+            border-radius: 50%;
+            background-color: #fce7f3;
+            height: 16px;
+            width: 16px;
+        }
+    </style>
+</head>
+<body class="bg-gray-700 text-white flex items-center justify-center min-h-screen p-4 overflow-hidden relative">
+    
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+
+    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-red-600 via-pink-400 to-red-600 opacity-80"></div>
+
+    <main class="relative z-10 text-center w-full max-w-lg bg-white/10 backdrop-blur-lg p-8 rounded-3xl shadow-2xl" data-aos="zoom-in-up">
+        
+        <audio id="audio-player" src="./music.mp3" preload="auto"></audio>
+
+        <img src="./cat-cute.gif" alt="Cute Cat GIF" class="w-48 mx-auto rounded-lg mb-6">
+
+        <h2 class="text-2xl font-bold mb-2 text-pink-100">Загадкова пісня для тебе ✨</h2>
+        
+        <div id="player-status" class="text-sm text-pink-300 h-5 mb-4">Завантаження музики...</div>
+
+        <div class="flex items-center space-x-4">
+            <div class="flex-grow flex items-center space-x-4">
+                <button id="play-pause-btn" class="p-3 flex-shrink-0 rounded-full bg-white/20 hover:bg-white/30 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    <svg id="play-icon" class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                    <svg id="pause-icon" class="w-6 h-6 text-white hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1zm4 0a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                </button>
+                <div class="flex-grow flex items-center space-x-2">
+                    <span id="current-time" class="text-sm font-mono text-pink-200">00:00</span>
+                    <div id="progress-bar-container" class="w-full bg-white/20 h-1.5 rounded-full cursor-pointer">
+                        <div id="progress-bar" class="bg-gradient-to-r from-yellow-300 to-pink-300 h-1.5 rounded-full" style="width: 0%;"></div>
+                    </div>
+                    <span id="total-duration" class="text-sm font-mono text-pink-200">00:00</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                 <button id="volume-btn">
+                    <svg id="volume-icon" class="w-6 h-6 text-pink-200 hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 6v12a1 1 0 01-1.707.707L5.586 15z"></path></svg>
+                    <svg id="mute-icon" class="w-6 h-6 text-pink-200 hover:text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 6v12a1 1 0 01-1.707.707L5.586 15zM17 14l-4-4m0 4l4-4"></path></svg>
+                 </button>
+                 <input id="volume-slider" type="range" min="0" max="100" value="75">
+            </div>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        const audio = document.getElementById('audio-player');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+        const progressBarContainer = document.getElementById('progress-bar-container');
+        const progressBar = document.getElementById('progress-bar');
+        const currentTimeEl = document.getElementById('current-time');
+        const totalDurationEl = document.getElementById('total-duration');
+        const playerStatus = document.getElementById('player-status');
+        const volumeBtn = document.getElementById('volume-btn');
+        const volumeIcon = document.getElementById('volume-icon');
+        const muteIcon = document.getElementById('mute-icon');
+        const volumeSlider = document.getElementById('volume-slider');
+        
+        let lastVolume = 1;
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        const togglePlayPause = async () => {
+            if (audio.paused) {
+                try {
+                    await audio.play();
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+                } catch (error) {
+                    console.error("Playback Error:", error);
+                    playerStatus.textContent = "Помилка відтворення";
+                }
+            } else {
+                audio.pause();
+                pauseIcon.classList.add('hidden');
+                playIcon.classList.remove('hidden');
+            }
+        };
+
+        const handleVolumeChange = () => {
+            audio.volume = volumeSlider.value / 100;
+            if (audio.volume === 0) {
+                volumeIcon.classList.add('hidden');
+                muteIcon.classList.remove('hidden');
+            } else {
+                volumeIcon.classList.remove('hidden');
+                muteIcon.classList.add('hidden');
+            }
+        };
+        
+        const toggleMute = () => {
+            if (audio.volume > 0) {
+                lastVolume = audio.volume;
+                audio.volume = 0;
+                volumeSlider.value = 0;
+            } else {
+                audio.volume = lastVolume;
+                volumeSlider.value = lastVolume * 100;
+            }
+            handleVolumeChange();
+        };
+
+        playPauseBtn.addEventListener('click', togglePlayPause);
+        volumeSlider.addEventListener('input', handleVolumeChange);
+        volumeBtn.addEventListener('click', toggleMute);
+
+        audio.addEventListener('timeupdate', () => {
+            progressBar.style.width = `${(audio.currentTime / audio.duration) * 100 || 0}%`;
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+        });
+        
+        audio.addEventListener('loadedmetadata', () => {
+            totalDurationEl.textContent = formatTime(audio.duration);
+        });
+
+        audio.addEventListener('canplaythrough', () => {
+             playPauseBtn.disabled = false;
+             playerStatus.textContent = "";
+        });
+
+        audio.addEventListener('error', () => {
+            playerStatus.textContent = "Не вдалося завантажити трек";
+            playPauseBtn.disabled = true;
+        });
+
+        progressBarContainer.addEventListener('click', (e) => {
+            if (!audio.duration) return;
+            audio.currentTime = (e.offsetX / progressBarContainer.clientWidth) * audio.duration;
+        });
+
+        audio.addEventListener('ended', () => {
+            pauseIcon.classList.add('hidden');
+            playIcon.classList.remove('hidden');
+            audio.currentTime = 0;
+        });
+        
+        audio.volume = volumeSlider.value / 100;
+
+    </script>
+</body>
+</html>
